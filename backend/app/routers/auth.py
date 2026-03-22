@@ -19,6 +19,11 @@ class LoginRequest(BaseModel):
 @router.post("/auth/login")
 async def login(body: LoginRequest, db: AsyncSession = Depends(get_db)):
     """Login mit Email + Passwort, gibt JWT-Token zurueck."""
+    from app.services.settings import get_setting
+    legacy_login = await get_setting(db, "legacy_login")
+    if not legacy_login:
+        raise HTTPException(status_code=403, detail="Legacy-Login deaktiviert")
+
     result = await db.execute(select(User).where(User.email == body.email))
     user = result.scalar_one_or_none()
 

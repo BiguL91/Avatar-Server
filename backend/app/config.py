@@ -47,6 +47,9 @@ class Settings(BaseSettings):
     jwt_secret: str = "dev-secret-change-me"
     jwt_expire_minutes: int = 1440  # 24 Stunden
 
+    # Legacy-Login (Email + Passwort)
+    legacy_login: bool = True
+
     # Dev-Modus: OIDC umgehen mit Fake-User
     dev_mode: bool = False
     dev_user_email: str = "dev@example.com"

@@ -93,6 +93,7 @@ Alle Einstellungen über Umgebungsvariablen (`.env`) oder zur Laufzeit über die
 | `ADMIN_EMAIL` | — | Email des Admin-Users |
 | `ADMIN_PASSWORD` | — | Passwort des Admin-Users |
 | `JWT_SECRET` | `dev-secret-change-me` | **Unbedingt ändern!** |
+| `LEGACY_LOGIN` | `true` | Legacy-Login (Email + Passwort) aktivieren/deaktivieren |
 | `DEV_MODE` | `false` | Login ohne Passwort für Entwicklung |
 
 ### OIDC / SSO

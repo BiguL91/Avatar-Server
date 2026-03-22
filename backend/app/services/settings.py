@@ -17,6 +17,8 @@ CONFIGURABLE_KEYS = {
     "avatar_default_size": "int",
     "avatar_max_size": "int",
     "avatar_sizes": "list",
+    # Login
+    "legacy_login": "bool",
     # OIDC / SSO
     "oidc_enabled": "bool",
     "oidc_discovery_url": "str",

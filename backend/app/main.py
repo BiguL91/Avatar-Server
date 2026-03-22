@@ -56,7 +56,7 @@ async def _seed_admin_user():
 
 app = FastAPI(
     title=settings.app_name,
-    version="0.1.0",
+    version="0.1.1",
     lifespan=lifespan,
 )
 
@@ -91,10 +91,12 @@ async def get_config(db: AsyncSession = Depends(get_db)):
     default_language = await get_setting(db, "default_language")
     avatar_sizes = await get_setting(db, "avatar_sizes") or settings.avatar_sizes
     oidc_enabled = await get_setting(db, "oidc_enabled")
+    legacy_login = await get_setting(db, "legacy_login")
     return {
         "defaultLanguage": default_language or "de",
         "devMode": bool(settings.dev_mode),
         "oidcEnabled": bool(oidc_enabled),
+        "legacyLogin": legacy_login if legacy_login is not None else True,
         "avatarSizes": sorted(avatar_sizes),
     }
 

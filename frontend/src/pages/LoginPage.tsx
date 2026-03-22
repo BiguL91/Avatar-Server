@@ -11,6 +11,7 @@ interface AppConfig {
   defaultLanguage: string;
   devMode: boolean;
   oidcEnabled: boolean;
+  legacyLogin: boolean;
 }
 
 export function LoginPage({ onLogin }: LoginPageProps) {
@@ -89,6 +90,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
 
   // OIDC aktiv: SSO-Button prominent, Legacy-Login aufklappbar
   const oidcEnabled = config?.oidcEnabled ?? false;
+  const legacyLogin = config?.legacyLogin ?? true;
 
   return (
     <div className="login-page">
@@ -111,21 +113,25 @@ export function LoginPage({ onLogin }: LoginPageProps) {
 
             {error && !showLegacy && <p className="login-error">{error}</p>}
 
-            {/* Legacy-Login aufklappen */}
-            <div className="login-divider">
-              <span>{t("login.legacy.divider")}</span>
-            </div>
-            <button
-              className="btn login-btn login-btn--legacy"
-              onClick={() => setShowLegacy(!showLegacy)}
-            >
-              {t("login.legacy")}
-            </button>
+            {/* Legacy-Login aufklappen (nur wenn Legacy aktiviert) */}
+            {legacyLogin && (
+              <>
+                <div className="login-divider">
+                  <span>{t("login.legacy.divider")}</span>
+                </div>
+                <button
+                  className="btn login-btn login-btn--legacy"
+                  onClick={() => setShowLegacy(!showLegacy)}
+                >
+                  {t("login.legacy")}
+                </button>
+              </>
+            )}
           </>
         )}
 
         {/* Login-Formular (immer sichtbar wenn kein OIDC, sonst aufklappbar) */}
-        {(!oidcEnabled || showLegacy) && (
+        {legacyLogin && (!oidcEnabled || showLegacy) && (
           <form className="login-form" onSubmit={handleSubmit}>
             <input
               className="login-input"

@@ -24,6 +24,7 @@ services:
       - DEFAULT_LANGUAGE=de
       - DATABASE_PATH=./data/avatar_server.db
       
+      - LEGACY_LOGIN=true
       - ADMIN_EMAIL=admin@admin.com
       - ADMIN_PASSWORD=changeme
 
@@ -34,7 +35,7 @@ services:
       - DEV_USER_EMAIL=dev@dev.com
       - DEV_USER_NAME=Dev User
 
-      - OIDC_ENABLED=fals
+      - OIDC_ENABLED=false
       - OIDC_DISCOVERY_URL=              # Basis-URL z.B. https://sso.domain.com/realms/myrealm
       - OIDC_CLIENT_ID=
       - OIDC_CLIENT_SECRET=

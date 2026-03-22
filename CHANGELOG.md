@@ -6,6 +6,17 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/).
 
 ---
 
+## v0.1.1 (2026-03-22)
+
+### Hinzugefügt
+- **Legacy-Login Toggle** — Neuer ENV `LEGACY_LOGIN` (default: `true`), deaktiviert den Email+Passwort Login komplett wenn auf `false` gesetzt (Backend blockt mit 403, Frontend versteckt das Formular)
+- **Docker Hub Link** — README verweist auf fertigen Build auf Docker Hub
+
+### Behoben
+- **Typo** — `OIDC_ENABLED=fals` → `false` in docker-compose.yml
+
+---
+
 ## v0.1.0 (2026-03-21) — Initial Release
 
 Erster öffentlicher Release des Avatar Servers.
