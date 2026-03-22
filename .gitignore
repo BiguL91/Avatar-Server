@@ -28,6 +28,9 @@ backend/data/
 .DS_Store
 Thumbs.db
 
+# Scripts (lokal)
+scripts/
+
 # Lokale Dokumentation (nicht in Git)
 ai.md
 CLAUDE.md

@@ -48,7 +48,25 @@ Self-Hosted Avatar Server — ein Gravatar-Ersatz für die eigene Infrastruktur.
 
 ## 💻 Installation
 
-### Docker (empfohlen)
+### Docker Hub (schnellster Weg)
+
+Fertiges Image von [Docker Hub](https://hub.docker.com/r/bigul91/avatar-server) verwenden:
+
+```bash
+# Konfiguration erstellen
+curl -O https://raw.githubusercontent.com/BiguL91/Avatar-Server/main/.env.example
+cp .env.example .env
+# .env anpassen (BASE_URL, ADMIN_EMAIL, JWT_SECRET, ...)
+
+# Starten (bestimmte Version oder latest)
+docker run -d --name avatar-server \
+  --env-file .env \
+  -p 3010:8000 \
+  -v avatar-data:/app/data \
+  bigul91/avatar-server:latest
+```
+
+### Docker Compose (empfohlen)
 
 ```bash
 # Repository klonen
@@ -59,11 +77,16 @@ cd avatarServer
 cp .env.example .env
 # .env anpassen (BASE_URL, ADMIN_EMAIL, JWT_SECRET, ...)
 
-# Bauen und starten
+# Starten (mit fertigem Image)
+docker compose up -d
+
+# Oder: Selbst bauen und starten
 docker compose up -d --build
 ```
 
 Der Server läuft auf Port `8000`. Einen Reverse-Proxy (Nginx, Caddy, Traefik) davor für SSL.
+
+> **Watchtower-Nutzer:** Das `:latest` Tag wird bei jedem Release aktualisiert. Für eine feste Version stattdessen z.B. `bigul91/avatar-server:0.1.1` verwenden.
 
 ### Lokale Entwicklung
 

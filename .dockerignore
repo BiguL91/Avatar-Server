@@ -6,6 +6,7 @@ backend/**/__pycache__
 backend/*.egg-info
 data
 *.md
+scripts
 .git
 .gitignore
 ai.md
