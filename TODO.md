@@ -3,10 +3,15 @@
 Diese Datei enthält geplante Features und Verbesserungen
 ---
 
-## 🎯 Priorität 1 (Next) - Quick Wins
+## 🎯 Priorität 1 (Next)
 
+Avatar Access Control — Neuer Modus `AVATAR_ACCESS`: `public` (default) oder `subnet` (nur aus konfigurierten Subnetzen erreichbar). Dazu `AVATAR_USER_CAN_PUBLISH`: User können ihren Avatar eigenständig öffentlich freigeben. Neues DB-Feld `avatar_public` in users-Tabelle.
 
-## 🔮 Priorität 2 (Later) - High Value Features
+Avatar sperren — Admin kann einzelne Avatare sperren. Gesperrter Avatar wird durch Default ersetzt, User sieht Hinweis.
+
+## 🔮 Priorität 2 (Later)
+
+Audit Log — Neuer Admin-Tab mit Aktions-Historie (Login, Upload, Admin-Aktionen). Filter nach User/Aktion/Zeitraum, Auto-Cleanup nach X Tagen.
 
 Rate Limiting — Login-Brute-Force und API-Missbrauch begrenzen (z.B. slowapi)
 
@@ -15,3 +20,5 @@ Rate Limiting — Login-Brute-Force und API-Missbrauch begrenzen (z.B. slowapi)
 Responsive Design für Mobile
 
 Admin: "Resize All" — alle existierenden Avatare mit den aktuellen avatar_sizes neu generieren (Originale sind vorhanden). Nützlich falls Sizes nachträglich geändert werden.
+
+Default-Avatar-Generator — Automatisch generierte Avatare aus dem Email-Hash wenn kein Avatar gesetzt ist. Kein Standard-Initialen-Look, sondern was Ausgefallenes (z.B. Pixel-Art Faces, Geometric Patterns, Blob Creatures, Gradient Meshes). Deterministisch, serverseitig mit Pillow.
