@@ -1,0 +1,112 @@
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+  width: 100%;
+  max-width: 360px;
+}
+
+.login-logo__placeholder {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.login-title {
+  font-size: var(--font-size-xl);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+.login-input {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-secondary);
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  box-sizing: border-box;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.login-btn {
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-xl);
+}
+
+.login-btn--sso {
+  font-size: var(--font-size-base);
+  width: 100%;
+}
+
+.login-btn--legacy {
+  background: none;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.login-btn--legacy:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.login-btn--dev {
+  background: none;
+  border: 1px dashed var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.login-btn--dev:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.login-error {
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  margin: 0;
+}
+
+.login-divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--color-border);
+}

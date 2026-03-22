@@ -1,0 +1,37 @@
+# Abhaengigkeiten
+node_modules/
+*.egg-info/
+
+# Build
+dist/
+build/
+__pycache__/
+*.pyc
+
+# Umgebung
+.env
+.venv/
+venv/
+
+# Daten
+data/
+backend/data/
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Lokale Dokumentation (nicht in Git)
+ai.md
+CLAUDE.md
+UNRELEASED.md
+techstack.md
+überlegung.md
+ideen.md

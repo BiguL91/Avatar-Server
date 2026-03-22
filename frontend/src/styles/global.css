@@ -1,0 +1,50 @@
+@import "./variables.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Top-Bar: Theme-Toggle + UserMenu oben rechts */
+.top-bar {
+  position: fixed;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}

@@ -1,0 +1,53 @@
+services:
+  avatar-server:
+    build: .
+    image: bigul91/avatar-server:latest
+    container_name: avatar-server
+    restart: unless-stopped
+    ports:
+      - 3010:8000
+    volumes:
+      - avatar-data:/app/data
+    environment:
+      - APP_NAME=Avatar Server
+      - DEBUG=False
+      
+      - AVATAR_STORAGE_PATH=./data/avatars
+      - AVATAR_DEFAULT_SIZE=80
+      - AVATAR_MAX_SIZE=512
+      - AVATAR_SIZES=[32, 64, 80, 128, 256, 512]
+      - AVATAR_UPLOAD_MAX_BYTES=10485760
+      - AVATAR_ORIGINAL_MAX_PX=1920
+      - AVATAR_CACHE_MAX_AGE=3600
+      - AVATAR_MAX_UPLOADS=6
+      
+      - DEFAULT_LANGUAGE=de
+      - DATABASE_PATH=./data/avatar_server.db
+      
+      - ADMIN_EMAIL=admin@admin.com
+      - ADMIN_PASSWORD=changeme
+
+      - JWT_SECRET=change-me-to-a-random-secret
+      - JWT_EXPIRE_MINUTES=1440
+
+      - DEV_MODE=false
+      - DEV_USER_EMAIL=dev@dev.com
+      - DEV_USER_NAME=Dev User
+
+      - OIDC_ENABLED=fals
+      - OIDC_DISCOVERY_URL=              # Basis-URL z.B. https://sso.domain.com/realms/myrealm
+      - OIDC_CLIENT_ID=
+      - OIDC_CLIENT_SECRET=
+      - OIDC_CLAIM_EMAIL=email           # Claim-Name fuer Email-Adresse
+      - OIDC_CLAIM_NAME=nickname         # Claim-Name fuer Anzeigename
+      - OIDC_CLAIM_PICTURE=picture       # Attribut-Name fuer Avatar-URL (WebP)
+      - OIDC_CLAIM_PICTURE_PNG=avatar_png # Attribut-Name fuer PNG-Avatar-URL
+      - OIDC_CLAIM_GROUPS=groups         # Claim-Name fuer Gruppen/Rollen
+      - OIDC_ADMIN_GROUP=admin           # Gruppenname der Admin-Rechte vergibt
+      - OIDC_SYNC_PICTURE=false          # Avatar-URL an IdP zurueckschreiben
+      - OIDC_PICTURE_SIZE=256            # Groesse fuer die Picture-URL
+      - BASE_URL=                        # Basis-URL z.B. https://avatar.domain.com
+      
+
+volumes:
+  avatar-data:
