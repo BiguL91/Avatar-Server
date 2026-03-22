@@ -50,6 +50,9 @@ class Settings(BaseSettings):
     # Legacy-Login (Email + Passwort)
     legacy_login: bool = True
 
+    # Security
+    trusted_proxy: str = ""  # IP oder Subnetz z.B. 192.168.1.10 oder 192.168.1.0/24
+
     # Dev-Modus: OIDC umgehen mit Fake-User
     dev_mode: bool = False
     dev_user_email: str = "dev@example.com"

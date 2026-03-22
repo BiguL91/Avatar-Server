@@ -48,6 +48,7 @@ services:
       - OIDC_SYNC_PICTURE=false          # Avatar-URL an IdP zurueckschreiben
       - OIDC_PICTURE_SIZE=256            # Groesse fuer die Picture-URL
       - BASE_URL=                        # Basis-URL z.B. https://avatar.domain.com
+      - TRUSTED_PROXY=                   # IP/Subnetz z.B. 192.168.1.10 oder 192.168.1.0/24
       
 
 volumes:

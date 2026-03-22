@@ -107,6 +107,7 @@ Frontend unter `http://localhost:5173`, Backend unter `http://localhost:8000`.
 ## ⚙️ Konfiguration
 
 Alle Einstellungen über Umgebungsvariablen (`.env`) oder zur Laufzeit über die Admin-Konsole.
+Die Admin-Konsole gruppiert die Einstellungen in aufklappbare Bereiche (Avatar, Login & Sicherheit, OIDC/SSO, Allgemein).
 
 ### Wichtigste Variablen
 
@@ -117,6 +118,7 @@ Alle Einstellungen über Umgebungsvariablen (`.env`) oder zur Laufzeit über die
 | `ADMIN_PASSWORD` | — | Passwort des Admin-Users |
 | `JWT_SECRET` | `dev-secret-change-me` | **Unbedingt ändern!** |
 | `LEGACY_LOGIN` | `true` | Legacy-Login (Email + Passwort) aktivieren/deaktivieren |
+| `TRUSTED_PROXY` | — | IP/Subnetz des Reverse-Proxy (z.B. `192.168.1.10` oder `192.168.1.0/24`) |
 | `DEV_MODE` | `false` | Login ohne Passwort für Entwicklung |
 
 ### OIDC / SSO
@@ -167,6 +169,11 @@ Avatar Server ←→ OIDC Provider (Keycloak, etc.)
 - CORS mit spezifischen Origins/Methods
 - Secrets in Admin-API maskiert
 - Dev-Mode und Debug standardmäßig deaktiviert
+- OIDC ohne HTTPS wird beim Start blockiert (verhindert unverschlüsselte Token-Übertragung)
+- OIDC + Dev-Mode gleichzeitig wird beim Start und zur Laufzeit blockiert
+- Trusted Proxy — optional nur Requests von bestimmter IP/Subnetz erlauben, X-Forwarded-For Support
+- JWT-Secret Warnung wenn Default-Wert im Produktivbetrieb
+- Validierung in der Admin-Konsole: OIDC erfordert HTTPS, Trusted Proxy und deaktivierten Dev-Mode
 
 ## 📋 Changelog
 

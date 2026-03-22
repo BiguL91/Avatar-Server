@@ -192,6 +192,72 @@ async def update_setting(
     if key not in CONFIGURABLE_KEYS:
         raise HTTPException(status_code=400, detail=f"Setting '{key}' ist nicht konfigurierbar")
 
+    from app.services.settings import get_setting
+
+    # OIDC aktivieren: HTTPS, Trusted Proxy und kein Dev-Mode
+    if key == "oidc_enabled" and body.value.lower() in ("true", "1", "yes"):
+        dev_mode = await get_setting(db, "dev_mode")
+        if dev_mode:
+            raise HTTPException(
+                status_code=400,
+                detail="OIDC kann nicht aktiviert werden solange Dev-Mode aktiv ist.",
+            )
+
+        base_url = await get_setting(db, "base_url") or ""
+        if not base_url.startswith("https://"):
+            raise HTTPException(
+                status_code=400,
+                detail="OIDC erfordert HTTPS. Bitte zuerst BASE_URL auf HTTPS setzen.",
+            )
+
+        trusted_proxy = await get_setting(db, "trusted_proxy")
+        if not trusted_proxy:
+            raise HTTPException(
+                status_code=400,
+                detail="OIDC erfordert einen TRUSTED_PROXY. Bitte zuerst Trusted Proxy konfigurieren.",
+            )
+
+        discovery_url = await get_setting(db, "oidc_discovery_url") or ""
+        if discovery_url and not discovery_url.startswith("https://"):
+            raise HTTPException(
+                status_code=400,
+                detail="OIDC_DISCOVERY_URL muss HTTPS sein.",
+            )
+
+    # Discovery-URL aendern: muss HTTPS sein
+    if key == "oidc_discovery_url" and body.value.strip() and not body.value.strip().startswith("https://"):
+        raise HTTPException(
+            status_code=400,
+            detail="OIDC_DISCOVERY_URL muss HTTPS sein.",
+        )
+
+    # Dev-Mode aktivieren: nicht wenn OIDC aktiv
+    if key == "dev_mode" and body.value.lower() in ("true", "1", "yes"):
+        oidc_enabled = await get_setting(db, "oidc_enabled")
+        if oidc_enabled:
+            raise HTTPException(
+                status_code=400,
+                detail="Dev-Mode kann nicht aktiviert werden solange OIDC aktiv ist.",
+            )
+
+    # BASE_URL aendern: wenn OIDC aktiv, muss HTTPS bleiben
+    if key == "base_url":
+        oidc_enabled = await get_setting(db, "oidc_enabled")
+        if oidc_enabled and not body.value.startswith("https://"):
+            raise HTTPException(
+                status_code=400,
+                detail="BASE_URL muss HTTPS sein solange OIDC aktiviert ist.",
+            )
+
+    # Trusted Proxy aendern: wenn OIDC aktiv, darf nicht leer sein
+    if key == "trusted_proxy" and not body.value.strip():
+        oidc_enabled = await get_setting(db, "oidc_enabled")
+        if oidc_enabled:
+            raise HTTPException(
+                status_code=400,
+                detail="TRUSTED_PROXY darf nicht leer sein solange OIDC aktiviert ist.",
+            )
+
     setting = await set_setting(db, key, body.value)
     return {
         "key": setting.key,
@@ -209,6 +275,23 @@ async def reset_setting(
     """DB-Override loeschen (zurueck auf ENV-Default)."""
     if key not in CONFIGURABLE_KEYS:
         raise HTTPException(status_code=400, detail=f"Setting '{key}' ist nicht konfigurierbar")
+
+    # Pruefen ob Reset sicher ist wenn OIDC aktiv
+    from app.config import settings as env_settings
+    from app.services.settings import get_setting
+
+    oidc_enabled = await get_setting(db, "oidc_enabled")
+    if oidc_enabled:
+        if key == "trusted_proxy" and not env_settings.trusted_proxy:
+            raise HTTPException(
+                status_code=400,
+                detail="TRUSTED_PROXY kann nicht zurueckgesetzt werden solange OIDC aktiviert ist (kein ENV-Default vorhanden).",
+            )
+        if key == "base_url" and not env_settings.base_url.startswith("https://"):
+            raise HTTPException(
+                status_code=400,
+                detail="BASE_URL kann nicht zurueckgesetzt werden solange OIDC aktiviert ist (ENV-Default ist nicht HTTPS).",
+            )
 
     deleted = await delete_setting(db, key)
     if not deleted:

@@ -6,6 +6,20 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/).
 
 ---
 
+## v0.1.2 (2026-03-22)
+
+### Hinzugefügt
+- **Trusted Proxy** — Neuer ENV `TRUSTED_PROXY` (IP oder Subnetz), erlaubt nur Requests vom konfigurierten Reverse-Proxy. Echte Client-IP wird aus `X-Forwarded-For` Header übernommen. Zur Laufzeit über Admin-Konsole änderbar
+- **OIDC Security Checks** — Server startet nicht wenn OIDC aktiviert ist ohne HTTPS `BASE_URL`, ohne `TRUSTED_PROXY` oder mit aktivem Dev-Mode. Gleiche Prüfungen auch zur Laufzeit in der Admin-Konsole
+- **Dev-Mode zur Laufzeit** — `DEV_MODE` ist jetzt über die Admin-Konsole änderbar. Gegenseitige Sperre mit OIDC
+- **BASE_URL zur Laufzeit** — `BASE_URL` ist jetzt über die Admin-Konsole änderbar
+- **Settings-Gruppen** — Admin-Konsole zeigt Einstellungen in aufklappbaren Gruppen (Avatar, Login & Sicherheit, OIDC/SSO, Allgemein)
+- **Bool-Toggles** — Boolean-Settings in der Admin-Konsole als klickbare Toggles statt Textfelder
+- **Fehleranzeige** — Validierungsfehler werden direkt unter dem betroffenen Setting angezeigt
+- **JWT-Secret Warnung** — Warnung beim Start wenn `JWT_SECRET` auf dem Default-Wert steht
+
+---
+
 ## v0.1.1 (2026-03-22)
 
 ### Hinzugefügt

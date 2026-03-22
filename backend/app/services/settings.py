@@ -17,8 +17,11 @@ CONFIGURABLE_KEYS = {
     "avatar_default_size": "int",
     "avatar_max_size": "int",
     "avatar_sizes": "list",
-    # Login
+    # Login / Security
     "legacy_login": "bool",
+    "trusted_proxy": "str",
+    "base_url": "str",
+    "dev_mode": "bool",
     # OIDC / SSO
     "oidc_enabled": "bool",
     "oidc_discovery_url": "str",
