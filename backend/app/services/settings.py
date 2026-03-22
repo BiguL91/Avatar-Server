@@ -9,6 +9,7 @@ from app.models import Setting
 
 # Settings die zur Laufzeit ueber die Admin-Konsole aenderbar sind
 CONFIGURABLE_KEYS = {
+    "app_name": "str",
     "avatar_max_uploads": "int",
     "avatar_cache_max_age": "int",
     "default_language": "str",
@@ -22,6 +23,8 @@ CONFIGURABLE_KEYS = {
     "trusted_proxy": "str",
     "base_url": "str",
     "dev_mode": "bool",
+    "jwt_secret": "str",
+    "jwt_expire_minutes": "int",
     # OIDC / SSO
     "oidc_enabled": "bool",
     "oidc_discovery_url": "str",
@@ -97,7 +100,7 @@ async def delete_setting(db: AsyncSession, key: str) -> bool:
 
 
 # Keys deren Werte in der Admin-Konsole maskiert werden
-SECRET_KEYS = {"oidc_client_secret"}
+SECRET_KEYS = {"oidc_client_secret", "jwt_secret"}
 
 
 async def get_all_settings(db: AsyncSession) -> list[dict]:

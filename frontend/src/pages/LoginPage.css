@@ -15,17 +15,11 @@
   max-width: 360px;
 }
 
-.login-logo__placeholder {
-  width: 80px;
-  height: 80px;
-  border-radius: var(--radius-full);
-  background-color: var(--color-primary);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  font-weight: 700;
+.login-logo__img {
+  width: 128px;
+  height: auto;
+  border-radius: var(--radius-lg);
+  object-fit: contain;
 }
 
 .login-title {

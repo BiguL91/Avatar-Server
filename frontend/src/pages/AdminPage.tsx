@@ -68,13 +68,13 @@ export function AdminPage({ onBack, currentUserId }: AdminPageProps) {
       "avatar_max_uploads", "avatar_cache_max_age", "avatar_upload_max_bytes",
       "avatar_original_max_px", "avatar_default_size", "avatar_max_size", "avatar_sizes",
     ],
-    login: ["legacy_login", "dev_mode", "trusted_proxy", "base_url"],
+    login: ["legacy_login", "dev_mode", "trusted_proxy", "base_url", "jwt_secret", "jwt_expire_minutes"],
     oidc: [
       "oidc_enabled", "oidc_discovery_url", "oidc_client_id", "oidc_client_secret",
       "oidc_claim_email", "oidc_claim_name", "oidc_claim_picture", "oidc_claim_picture_png",
       "oidc_claim_groups", "oidc_admin_group", "oidc_sync_picture", "oidc_picture_size",
     ],
-    general: ["default_language"],
+    general: ["app_name", "default_language"],
   };
 
   const toggleGroup = (group: string) => {

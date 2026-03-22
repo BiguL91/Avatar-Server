@@ -6,6 +6,19 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/).
 
 ---
 
+## v0.1.3 (2026-03-22)
+
+### Hinzugefügt
+- **App-Logo** — Eigenes Logo auf der Login-Seite und als Favicon im Browser-Tab
+- **App-Name konfigurierbar** — `APP_NAME` zur Laufzeit änderbar, wird dynamisch auf Login-Seite und im Browser-Tab angezeigt
+- **JWT-Settings** — `JWT_SECRET` (maskiert) und `JWT_EXPIRE_MINUTES` in der Admin-Konsole änderbar
+- **Settings-Gruppen** — Admin-Konsole zeigt Einstellungen in aufklappbaren Gruppen (Avatar, Login & Sicherheit, OIDC/SSO, Allgemein)
+- **Bool-Toggles** — Boolean-Settings in der Admin-Konsole als klickbare Toggles statt Textfelder
+- **Fehleranzeige** — Validierungsfehler werden direkt unter dem betroffenen Setting angezeigt
+- **Discovery-URL Prüfung** — `OIDC_DISCOVERY_URL` muss HTTPS sein (beim Start und in der Admin-Konsole)
+
+---
+
 ## v0.1.2 (2026-03-22)
 
 ### Hinzugefügt
@@ -13,9 +26,6 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/).
 - **OIDC Security Checks** — Server startet nicht wenn OIDC aktiviert ist ohne HTTPS `BASE_URL`, ohne `TRUSTED_PROXY` oder mit aktivem Dev-Mode. Gleiche Prüfungen auch zur Laufzeit in der Admin-Konsole
 - **Dev-Mode zur Laufzeit** — `DEV_MODE` ist jetzt über die Admin-Konsole änderbar. Gegenseitige Sperre mit OIDC
 - **BASE_URL zur Laufzeit** — `BASE_URL` ist jetzt über die Admin-Konsole änderbar
-- **Settings-Gruppen** — Admin-Konsole zeigt Einstellungen in aufklappbaren Gruppen (Avatar, Login & Sicherheit, OIDC/SSO, Allgemein)
-- **Bool-Toggles** — Boolean-Settings in der Admin-Konsole als klickbare Toggles statt Textfelder
-- **Fehleranzeige** — Validierungsfehler werden direkt unter dem betroffenen Setting angezeigt
 - **JWT-Secret Warnung** — Warnung beim Start wenn `JWT_SECRET` auf dem Default-Wert steht
 
 ---

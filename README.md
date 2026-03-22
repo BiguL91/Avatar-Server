@@ -2,6 +2,16 @@
 
 Self-Hosted Avatar Server — ein Gravatar-Ersatz für die eigene Infrastruktur. Stellt Profilbilder über eine öffentliche API bereit, gesichert durch OIDC/SSO oder lokale Authentifizierung.
 
+## 📸 Screenshots
+
+| Login | Startseite |
+|:-----:|:----------:|
+| ![Login](Bilder/login.png) | ![Start](Bilder/start.png) |
+
+| Admin-Konsole | Kontoeinstellungen |
+|:-------------:|:------------------:|
+| ![Admin](Bilder/adminconsole.png) | ![Konto](Bilder/kontoeinstellung.png) |
+
 ## ✨ Features
 
 ### Avatar-Verwaltung

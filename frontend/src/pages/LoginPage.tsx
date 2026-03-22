@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "../i18n/i18n";
 import { setToken } from "../utils/api";
+import logoUrl from "../assets/logo.png";
 import "./LoginPage.css";
 
 interface LoginPageProps {
@@ -8,6 +9,7 @@ interface LoginPageProps {
 }
 
 interface AppConfig {
+  appName: string;
   defaultLanguage: string;
   devMode: boolean;
   oidcEnabled: boolean;
@@ -27,7 +29,10 @@ export function LoginPage({ onLogin }: LoginPageProps) {
   useEffect(() => {
     fetch("/api/config")
       .then((res) => res.json())
-      .then((data) => setConfig(data))
+      .then((data) => {
+        setConfig(data);
+        if (data.appName) document.title = data.appName;
+      })
       .catch(() => {});
   }, []);
 
@@ -96,9 +101,9 @@ export function LoginPage({ onLogin }: LoginPageProps) {
     <div className="login-page">
       <div className="login-card">
         <div className="login-logo">
-          <div className="login-logo__placeholder">A</div>
+          <img src={logoUrl} alt="Avatar Server" className="login-logo__img" />
         </div>
-        <h1 className="login-title">{t("login.title")}</h1>
+        <h1 className="login-title">{config?.appName || t("login.title")}</h1>
 
         {/* SSO-Login (wenn OIDC aktiv) */}
         {oidcEnabled && (

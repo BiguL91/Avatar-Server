@@ -142,7 +142,7 @@ async def _seed_admin_user():
 
 app = FastAPI(
     title=settings.app_name,
-    version="0.1.2",
+    version="0.1.3",
     lifespan=lifespan,
 )
 
@@ -177,12 +177,14 @@ async def health():
 async def get_config(db: AsyncSession = Depends(get_db)):
     """Oeffentliche Konfiguration fuer das Frontend."""
     from app.services.settings import get_setting
+    app_name = await get_setting(db, "app_name")
     default_language = await get_setting(db, "default_language")
     avatar_sizes = await get_setting(db, "avatar_sizes") or settings.avatar_sizes
     oidc_enabled = await get_setting(db, "oidc_enabled")
     legacy_login = await get_setting(db, "legacy_login")
     dev_mode = await get_setting(db, "dev_mode")
     return {
+        "appName": app_name or settings.app_name,
         "defaultLanguage": default_language or "de",
         "devMode": bool(dev_mode),
         "oidcEnabled": bool(oidc_enabled),
