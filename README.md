@@ -34,6 +34,7 @@ Self-Hosted Avatar Server — ein Gravatar-Ersatz für die eigene Infrastruktur.
 - **Mehrsprachigkeit** — Deutsch/Englisch, erweiterbar
 - **Dark/Light Mode** — Manueller Toggle, System-Preference als Default
 - **Docker** — Multi-Stage Build, ein Container für alles
+  - Fertiger Build auf [Docker Hub](https://hub.docker.com/r/bigul91/avatar-server)
 
 ## 🚀 Tech Stack
 
