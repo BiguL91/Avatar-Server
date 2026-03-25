@@ -50,6 +50,10 @@ export const de = {
   "usermenu.admin": "Admin-Konsole",
   "usermenu.logout": "Abmelden",
 
+  // Avatar-Freigabe
+  "preview.publish.on": "Avatar ist öffentlich",
+  "preview.publish.off": "Avatar öffentlich freigeben",
+
   // Öffentliche URL
   "preview.url.label": "Öffentliche URL",
   "preview.url.copied": "Kopiert!",

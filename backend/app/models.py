@@ -21,6 +21,7 @@ class User(Base):
     oidc_sub: Mapped[str | None] = mapped_column(String(255), nullable=True, unique=True)  # IdP User-ID (sub-Claim)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    avatar_public: Mapped[bool] = mapped_column(Boolean, default=False)  # Avatar oeffentlich freigegeben
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
     )

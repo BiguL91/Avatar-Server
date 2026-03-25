@@ -24,11 +24,13 @@ interface AvatarHistoryProps {
   onLimitInfo?: (isFull: boolean) => void;
   onAvatarChange?: () => void;
   avatarSizes?: number[];
+  avatarAccess?: string;
+  avatarUserCanPublish?: boolean;
 }
 
 const PREVIEW_SIZES = [64, 128, 256];
 
-export function AvatarHistory({ refreshTrigger, onLimitInfo, onAvatarChange, avatarSizes }: AvatarHistoryProps) {
+export function AvatarHistory({ refreshTrigger, onLimitInfo, onAvatarChange, avatarSizes, avatarAccess, avatarUserCanPublish }: AvatarHistoryProps) {
   const { t } = useTranslation();
   const [data, setData] = useState<HistoryData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -38,6 +40,7 @@ export function AvatarHistory({ refreshTrigger, onLimitInfo, onAvatarChange, ava
   const [cacheKey, setCacheKey] = useState(0);
   const [copied, setCopied] = useState(false);
   const [previewSize, setPreviewSize] = useState<number | null>(null);
+  const [avatarPublic, setAvatarPublic] = useState(false);
   const urlInputRef = useRef<HTMLInputElement>(null);
 
   const fetchHistory = useCallback(async () => {
@@ -47,6 +50,13 @@ export function AvatarHistory({ refreshTrigger, onLimitInfo, onAvatarChange, ava
       const result: HistoryData = await response.json();
       setData(result);
       onLimitInfo?.(result.uploads.length >= result.max_uploads);
+
+      // avatar_public Status laden
+      const meResponse = await apiFetch("/api/upload/me");
+      if (meResponse.ok) {
+        const meData = await meResponse.json();
+        setAvatarPublic(meData.avatar_public ?? false);
+      }
     } finally {
       setLoading(false);
     }
@@ -118,6 +128,14 @@ export function AvatarHistory({ refreshTrigger, onLimitInfo, onAvatarChange, ava
     ? `${window.location.origin}/avatar/${data.hashes.md5}${previewSize ? `?s=${previewSize}` : ""}`
     : null;
 
+  const handleTogglePublish = async () => {
+    const response = await apiFetch("/api/avatar/publish", { method: "POST" });
+    if (response.ok) {
+      const result = await response.json();
+      setAvatarPublic(result.avatar_public);
+    }
+  };
+
   const handleCopy = async () => {
     if (!publicUrl) return;
     await navigator.clipboard.writeText(publicUrl);
@@ -150,7 +168,19 @@ export function AvatarHistory({ refreshTrigger, onLimitInfo, onAvatarChange, ava
               </div>
             ))}
           </div>
-          {publicUrl && (
+          {/* Publish-Toggle: nur bei subnet-Modus und wenn erlaubt */}
+          {avatarAccess === "subnet" && avatarUserCanPublish && (
+            <div className="active-preview__publish">
+              <button
+                className={`btn btn--sm ${avatarPublic ? "btn--primary" : "btn--secondary"}`}
+                onClick={handleTogglePublish}
+              >
+                {avatarPublic ? t("preview.publish.on") : t("preview.publish.off")}
+              </button>
+            </div>
+          )}
+          {/* URL: anzeigen wenn public-Modus ODER (subnet + avatar_public) */}
+          {publicUrl && (avatarAccess !== "subnet" || avatarPublic) && (
             <div className="active-preview__url">
               <label className="active-preview__url-label">{t("preview.url.label")}</label>
               <div className="active-preview__url-row">

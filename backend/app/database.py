@@ -46,3 +46,13 @@ async def init_db():
                 connection.execute(text("ALTER TABLE users ADD COLUMN oidc_sub VARCHAR(255)"))
 
         await conn.run_sync(_migrate_oidc_sub)
+
+        # Migration: avatar_public Spalte zu users hinzufuegen (Avatar Access Control)
+        def _migrate_avatar_public(connection):
+            from sqlalchemy import text, inspect
+            inspector = inspect(connection)
+            columns = [col["name"] for col in inspector.get_columns("users")]
+            if "avatar_public" not in columns:
+                connection.execute(text("ALTER TABLE users ADD COLUMN avatar_public BOOLEAN DEFAULT 0 NOT NULL"))
+
+        await conn.run_sync(_migrate_avatar_public)

@@ -69,6 +69,13 @@
   transition: color 0.2s;
 }
 
+/* Avatar-Freigabe Button */
+.active-preview__publish {
+  margin-top: var(--spacing-lg);
+  display: flex;
+  justify-content: center;
+}
+
 /* Öffentliche Avatar-URL */
 .active-preview__url {
   margin-top: var(--spacing-lg);

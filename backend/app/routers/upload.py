@@ -88,9 +88,15 @@ async def _sync_picture_if_state_changed(db: AsyncSession, user_email: str, had_
 async def get_me(user: dict = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
     """Aktuellen User zurueckgeben (inkl. Avatar-Status)."""
     avatar_info = await get_active_avatar_info(db, user["email"])
+
+    # avatar_public Status aus DB laden
+    result = await db.execute(select(User).where(User.email == user["email"]))
+    db_user = result.scalar_one_or_none()
+
     return {
         **user,
         **avatar_info,
+        "avatar_public": db_user.avatar_public if db_user else False,
     }
 
 
@@ -145,6 +151,25 @@ async def upload_avatar(
 async def get_upload_history(user: dict = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
     """Alle Uploads des Users zurueckgeben."""
     return await get_history(db, user["email"])
+
+
+@router.post("/avatar/publish")
+async def toggle_avatar_public(user: dict = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+    """Avatar oeffentlich freigeben oder zurueckziehen."""
+    # Pruefen ob Feature erlaubt ist
+    user_can_publish = await get_setting(db, "avatar_user_can_publish")
+    if not user_can_publish:
+        raise HTTPException(status_code=403, detail="Avatar-Freigabe ist nicht erlaubt")
+
+    result = await db.execute(select(User).where(User.email == user["email"]))
+    db_user = result.scalar_one_or_none()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User nicht gefunden")
+
+    db_user.avatar_public = not db_user.avatar_public
+    await db.commit()
+
+    return {"avatar_public": db_user.avatar_public}
 
 
 @router.post("/activate/{upload_id}")

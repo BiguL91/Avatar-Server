@@ -16,9 +16,11 @@ interface UploadResult {
 interface UploadPageProps {
   onAvatarChange?: () => void;
   avatarSizes?: number[];
+  avatarAccess?: string;
+  avatarUserCanPublish?: boolean;
 }
 
-export function UploadPage({ onAvatarChange, avatarSizes }: UploadPageProps) {
+export function UploadPage({ onAvatarChange, avatarSizes, avatarAccess, avatarUserCanPublish }: UploadPageProps) {
   const { t } = useTranslation();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -202,7 +204,14 @@ export function UploadPage({ onAvatarChange, avatarSizes }: UploadPageProps) {
         />
       )}
 
-      <AvatarHistory refreshTrigger={historyRefresh} onLimitInfo={setLimitReached} onAvatarChange={onAvatarChange} avatarSizes={avatarSizes} />
+      <AvatarHistory
+        refreshTrigger={historyRefresh}
+        onLimitInfo={setLimitReached}
+        onAvatarChange={onAvatarChange}
+        avatarSizes={avatarSizes}
+        avatarAccess={avatarAccess}
+        avatarUserCanPublish={avatarUserCanPublish}
+      />
     </div>
   );
 }

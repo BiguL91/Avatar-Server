@@ -17,6 +17,8 @@ interface AppConfig {
   devMode: boolean;
   oidcEnabled: boolean;
   avatarSizes: number[];
+  avatarAccess: string;
+  avatarUserCanPublish: boolean;
 }
 
 interface UserData {
@@ -50,14 +52,33 @@ export function App() {
       const res = await apiFetch("/api/upload/me");
       if (!res.ok) return;
       const data = await res.json();
-      setUser({
-        id: data.id,
-        name: data.name,
-        email: data.email,
-        is_admin: data.is_admin ?? false,
-        avatarUrl: data.has_avatar
-          ? `/avatar/${data.md5}?s=64&v=${Date.now()}`
-          : null,
+
+      // Avatar per Auth-Header laden und als Blob-URL bereitstellen
+      let avatarUrl: string | null = null;
+      if (data.has_avatar) {
+        try {
+          const avatarRes = await apiFetch(`/avatar/${data.md5}?s=64&v=${Date.now()}`);
+          if (avatarRes.ok) {
+            const blob = await avatarRes.blob();
+            avatarUrl = URL.createObjectURL(blob);
+          }
+        } catch {
+          // Avatar nicht ladbar — kein Bild anzeigen
+        }
+      }
+
+      setUser((prev) => {
+        // Alte Blob-URL freigeben
+        if (prev?.avatarUrl?.startsWith("blob:")) {
+          URL.revokeObjectURL(prev.avatarUrl);
+        }
+        return {
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          is_admin: data.is_admin ?? false,
+          avatarUrl,
+        };
       });
     } catch {
       // Fehler ignorieren
@@ -137,7 +158,12 @@ export function App() {
             )}
           </div>
           {page === "upload" && (
-            <UploadPage onAvatarChange={refreshUser} avatarSizes={config?.avatarSizes} />
+            <UploadPage
+              onAvatarChange={refreshUser}
+              avatarSizes={config?.avatarSizes}
+              avatarAccess={config?.avatarAccess || "public"}
+              avatarUserCanPublish={config?.avatarUserCanPublish || false}
+            />
           )}
           {page === "settings" && user && (
             <SettingsPage

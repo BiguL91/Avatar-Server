@@ -54,6 +54,11 @@ class Settings(BaseSettings):
     trusted_proxy: str = ""  # IP oder Subnetz z.B. 192.168.1.10 oder 192.168.1.0/24
     allowed_hosts: str = "localhost"  # Komma-separiert z.B. localhost,avatars.domain.de,192.168.1.50
 
+    # Avatar Access Control
+    avatar_access: str = "public"  # "public" = frei erreichbar, "subnet" = nur aus erlaubten Subnetzen
+    avatar_allowed_subnets: str = ""  # Komma-separiert z.B. 192.168.1.0/24,10.0.0.0/8
+    avatar_user_can_publish: bool = False  # User kann Avatar eigenstaendig oeffentlich freigeben
+
     # Dev-Modus: OIDC umgehen mit Fake-User
     dev_mode: bool = False
     dev_user_email: str = "dev@example.com"

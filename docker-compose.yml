@@ -50,7 +50,10 @@ services:
       - BASE_URL=                        # Basis-URL z.B. https://avatar.domain.com
       - TRUSTED_PROXY=                   # IP/Subnetz z.B. 192.168.1.10 oder 192.168.1.0/24
       - ALLOWED_HOSTS=localhost          # Komma-separiert z.B. localhost,avatars.domain.de,192.168.1.50
-      
+      - AVATAR_ACCESS=public             # "public" oder "subnet"
+      - AVATAR_ALLOWED_SUBNETS=          # Komma-separiert z.B. 192.168.1.0/24,10.0.0.0/8
+      - AVATAR_USER_CAN_PUBLISH=false    # User kann Avatar oeffentlich freigeben
+
 
 volumes:
   avatar-data:

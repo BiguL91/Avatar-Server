@@ -50,6 +50,10 @@ export const en = {
   "usermenu.admin": "Admin Console",
   "usermenu.logout": "Logout",
 
+  // Avatar publishing
+  "preview.publish.on": "Avatar is public",
+  "preview.publish.off": "Make avatar public",
+
   // Public URL
   "preview.url.label": "Public URL",
   "preview.url.copied": "Copied!",

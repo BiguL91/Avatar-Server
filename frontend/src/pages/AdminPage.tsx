@@ -68,7 +68,11 @@ export function AdminPage({ onBack, currentUserId }: AdminPageProps) {
       "avatar_max_uploads", "avatar_cache_max_age", "avatar_upload_max_bytes",
       "avatar_original_max_px", "avatar_default_size", "avatar_max_size", "avatar_sizes",
     ],
-    login: ["legacy_login", "dev_mode", "trusted_proxy", "allowed_hosts", "base_url", "jwt_secret", "jwt_expire_minutes"],
+    login: [
+      "legacy_login", "dev_mode", "trusted_proxy", "allowed_hosts",
+      "avatar_access", "avatar_allowed_subnets", "avatar_user_can_publish",
+      "base_url", "jwt_secret", "jwt_expire_minutes",
+    ],
     oidc: [
       "oidc_enabled", "oidc_discovery_url", "oidc_client_id", "oidc_client_secret",
       "oidc_claim_email", "oidc_claim_name", "oidc_claim_picture", "oidc_claim_picture_png",
@@ -423,6 +427,7 @@ export function AdminPage({ onBack, currentUserId }: AdminPageProps) {
                     <tbody>
                       {groupSettings.map((setting) => {
                         const isBool = setting.type === "bool";
+                        const isAccessToggle = setting.key === "avatar_access";
                         const currentValue = editedSettings[setting.key] ?? setting.value;
                         const boolValue = currentValue.toLowerCase() === "true";
 
@@ -430,7 +435,17 @@ export function AdminPage({ onBack, currentUserId }: AdminPageProps) {
                         <tr key={setting.key}>
                           <td className="admin-table__key">{setting.key}</td>
                           <td>
-                            {isBool ? (
+                            {isAccessToggle ? (
+                              <button
+                                className={`admin-toggle admin-toggle--setting ${currentValue === "subnet" ? "admin-toggle--on" : "admin-toggle--off"}`}
+                                onClick={() => {
+                                  const newVal = currentValue === "subnet" ? "public" : "subnet";
+                                  setEditedSettings((prev) => ({ ...prev, [setting.key]: newVal }));
+                                }}
+                              >
+                                {currentValue === "subnet" ? "subnet" : "public"}
+                              </button>
+                            ) : isBool ? (
                               <button
                                 className={`admin-toggle admin-toggle--setting ${boolValue ? "admin-toggle--on" : "admin-toggle--off"}`}
                                 onClick={() => {

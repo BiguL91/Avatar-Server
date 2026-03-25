@@ -225,6 +225,8 @@ async def get_config(db: AsyncSession = Depends(get_db)):
     oidc_enabled = await get_setting(db, "oidc_enabled")
     legacy_login = await get_setting(db, "legacy_login")
     dev_mode = await get_setting(db, "dev_mode")
+    avatar_access = await get_setting(db, "avatar_access") or "public"
+    avatar_user_can_publish = await get_setting(db, "avatar_user_can_publish")
     return {
         "appName": app_name or settings.app_name,
         "defaultLanguage": default_language or "de",
@@ -232,6 +234,8 @@ async def get_config(db: AsyncSession = Depends(get_db)):
         "oidcEnabled": bool(oidc_enabled),
         "legacyLogin": legacy_login if legacy_login is not None else True,
         "avatarSizes": sorted(avatar_sizes),
+        "avatarAccess": avatar_access,
+        "avatarUserCanPublish": bool(avatar_user_can_publish),
     }
 
 
