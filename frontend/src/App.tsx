@@ -8,7 +8,7 @@ import { AdminPage } from "./pages/AdminPage";
 import { Footer } from "./components/Footer";
 import { UserMenu } from "./components/UserMenu";
 import { ThemeToggle } from "./components/ThemeToggle";
-import { apiFetch, clearToken } from "./utils/api";
+import { apiFetch, clearToken, getToken } from "./utils/api";
 
 type Page = "upload" | "settings" | "admin";
 
@@ -30,7 +30,7 @@ interface UserData {
 }
 
 export function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => !!getToken());
   const [user, setUser] = useState<UserData | null>(null);
   const [page, setPage] = useState<Page>("upload");
   const [config, setConfig] = useState<AppConfig | null>(null);
@@ -50,7 +50,15 @@ export function App() {
   const refreshUser = useCallback(async () => {
     try {
       const res = await apiFetch("/api/upload/me");
-      if (!res.ok) return;
+      if (!res.ok) {
+        // Token ungueltig/abgelaufen — ausloggen
+        if (res.status === 401) {
+          clearToken();
+          setIsLoggedIn(false);
+          setUser(null);
+        }
+        return;
+      }
       const data = await res.json();
 
       // Avatar per Auth-Header laden und als Blob-URL bereitstellen

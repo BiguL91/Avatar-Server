@@ -3,9 +3,11 @@
 Diese Datei enthält geplante Features und Verbesserungen
 ---
 
-## 🎯 Priorität 1 (Next)
+## ✅ Erledigte Features
 
-Avatar Access Control — Neuer Modus `AVATAR_ACCESS`: `public` (default) oder `subnet` (nur aus konfigurierten Subnetzen erreichbar). Dazu `AVATAR_USER_CAN_PUBLISH`: User können ihren Avatar eigenständig öffentlich freigeben. Neues DB-Feld `avatar_public` in users-Tabelle.
+Avatar Access Control — ✅ Erledigt (Subnet-Modus, Publish-Toggle, Auth-basierter Zugriff)
+
+## 🎯 Priorität 1 (Next)
 
 Avatar sperren — Admin kann einzelne Avatare sperren. Gesperrter Avatar wird durch Default ersetzt, User sieht Hinweis.
 

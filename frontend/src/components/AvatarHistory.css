@@ -120,10 +120,10 @@
   text-align: center;
 }
 
-/* Historie Grid - 3 Spalten, zentriert */
+/* Historie Grid - flexibel, zentriert */
 .history__grid {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--spacing-md);
   justify-content: center;
 }
