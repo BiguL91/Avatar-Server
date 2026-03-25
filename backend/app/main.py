@@ -55,6 +55,45 @@ def _check_security():
     if settings.trusted_proxy:
         print(f"[SECURITY] Trusted Proxy: {settings.trusted_proxy}")
 
+    if settings.allowed_hosts and settings.allowed_hosts != "localhost":
+        print(f"[SECURITY] Allowed Hosts: {settings.allowed_hosts}")
+    elif settings.allowed_hosts == "localhost":
+        print("[SECURITY] Allowed Hosts: localhost (Standard — nur lokaler Zugriff)")
+
+
+class AllowedHostsMiddleware(BaseHTTPMiddleware):
+    """Prueft den Host-Header gegen die erlaubten Hosts (ENV + DB-Override).
+    Blockiert Requests mit nicht erlaubtem Host-Header."""
+
+    async def dispatch(self, request: Request, call_next):
+        from app.database import async_session
+        from app.services.settings import get_setting
+
+        async with async_session() as db:
+            allowed_hosts = await get_setting(db, "allowed_hosts")
+
+        # Kein Wert = alle Hosts erlaubt
+        if not allowed_hosts or not allowed_hosts.strip():
+            return await call_next(request)
+
+        # Host-Header extrahieren (ohne Port)
+        host_header = request.headers.get("host", "")
+        request_host = host_header.split(":")[0].strip().lower()
+
+        # Erlaubte Hosts parsen
+        allowed = [h.strip().lower() for h in allowed_hosts.split(",") if h.strip()]
+
+        if request_host not in allowed:
+            return JSONResponse(
+                status_code=403,
+                content={
+                    "detail": f"Zugriff ueber '{host_header}' nicht erlaubt. "
+                    f"Erlaubte Hosts: {', '.join(allowed)}"
+                },
+            )
+
+        return await call_next(request)
+
 
 class TrustedProxyMiddleware(BaseHTTPMiddleware):
     """Prueft Trusted Proxy dynamisch (ENV + DB-Override).
@@ -160,6 +199,9 @@ app.add_middleware(
 
 # Trusted Proxy Middleware (prueft dynamisch ob konfiguriert)
 app.add_middleware(TrustedProxyMiddleware)
+
+# Allowed Hosts Middleware (prueft Host-Header gegen Whitelist)
+app.add_middleware(AllowedHostsMiddleware)
 
 app.include_router(admin.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")

@@ -97,13 +97,27 @@ export function LoginPage({ onLogin }: LoginPageProps) {
   const oidcEnabled = config?.oidcEnabled ?? false;
   const legacyLogin = config?.legacyLogin ?? true;
 
+  // Config noch nicht geladen: nur Logo + Titel zeigen (verhindert Flash)
+  if (!config) {
+    return (
+      <div className="login-page">
+        <div className="login-card">
+          <div className="login-logo">
+            <img src={logoUrl} alt="Avatar Server" className="login-logo__img" />
+          </div>
+          <h1 className="login-title">{t("login.title")}</h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="login-page">
       <div className="login-card">
         <div className="login-logo">
           <img src={logoUrl} alt="Avatar Server" className="login-logo__img" />
         </div>
-        <h1 className="login-title">{config?.appName || t("login.title")}</h1>
+        <h1 className="login-title">{config.appName || t("login.title")}</h1>
 
         {/* SSO-Login (wenn OIDC aktiv) */}
         {oidcEnabled && (

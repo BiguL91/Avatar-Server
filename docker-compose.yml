@@ -1,7 +1,7 @@
 services:
   avatar-server:
     build: .
-    image: bigul91/avatar-server:latest
+    image: bigul91/avatar-server:dev
     container_name: avatar-server
     restart: unless-stopped
     ports:
@@ -49,6 +49,7 @@ services:
       - OIDC_PICTURE_SIZE=256            # Groesse fuer die Picture-URL
       - BASE_URL=                        # Basis-URL z.B. https://avatar.domain.com
       - TRUSTED_PROXY=                   # IP/Subnetz z.B. 192.168.1.10 oder 192.168.1.0/24
+      - ALLOWED_HOSTS=localhost          # Komma-separiert z.B. localhost,avatars.domain.de,192.168.1.50
       
 
 volumes:

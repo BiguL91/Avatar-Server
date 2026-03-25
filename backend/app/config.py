@@ -52,6 +52,7 @@ class Settings(BaseSettings):
 
     # Security
     trusted_proxy: str = ""  # IP oder Subnetz z.B. 192.168.1.10 oder 192.168.1.0/24
+    allowed_hosts: str = "localhost"  # Komma-separiert z.B. localhost,avatars.domain.de,192.168.1.50
 
     # Dev-Modus: OIDC umgehen mit Fake-User
     dev_mode: bool = False

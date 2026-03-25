@@ -21,6 +21,7 @@ CONFIGURABLE_KEYS = {
     # Login / Security
     "legacy_login": "bool",
     "trusted_proxy": "str",
+    "allowed_hosts": "str",
     "base_url": "str",
     "dev_mode": "bool",
     "jwt_secret": "str",
