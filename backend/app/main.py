@@ -181,7 +181,7 @@ async def _seed_admin_user():
 
 app = FastAPI(
     title=settings.app_name,
-    version="0.1.3",
+    version="0.1.4",
     lifespan=lifespan,
 )
 

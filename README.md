@@ -129,6 +129,7 @@ Die Admin-Konsole gruppiert die Einstellungen in aufklappbare Bereiche (Avatar, 
 | `JWT_SECRET` | `dev-secret-change-me` | **Unbedingt ändern!** |
 | `LEGACY_LOGIN` | `true` | Legacy-Login (Email + Passwort) aktivieren/deaktivieren |
 | `TRUSTED_PROXY` | — | IP/Subnetz des Reverse-Proxy (z.B. `192.168.1.10` oder `192.168.1.0/24`) |
+| `ALLOWED_HOSTS` | `localhost` | Erlaubte Host-Header, komma-separiert (z.B. `localhost,avatars.domain.de`) |
 | `DEV_MODE` | `false` | Login ohne Passwort für Entwicklung |
 
 ### OIDC / SSO
@@ -156,6 +157,9 @@ Die Admin-Konsole gruppiert die Einstellungen in aufklappbare Bereiche (Avatar, 
 | `AVATAR_MAX_UPLOADS` | `6` | Max. Avatare pro User |
 | `AVATAR_UPLOAD_MAX_BYTES` | `10485760` | Max. Dateigröße (10 MB) |
 | `AVATAR_CACHE_MAX_AGE` | `3600` | Cache-Dauer in Sekunden |
+| `AVATAR_ACCESS` | `public` | `public` = frei erreichbar, `subnet` = nur aus erlaubten Subnetzen |
+| `AVATAR_ALLOWED_SUBNETS` | — | Komma-separiert (z.B. `192.168.1.0/24,10.0.0.0/8`) |
+| `AVATAR_USER_CAN_PUBLISH` | `false` | User kann Avatar eigenständig öffentlich freigeben |
 
 ## 🏗 Architektur
 
@@ -182,9 +186,19 @@ Avatar Server ←→ OIDC Provider (Keycloak, etc.)
 - OIDC ohne HTTPS wird beim Start blockiert (verhindert unverschlüsselte Token-Übertragung)
 - OIDC + Dev-Mode gleichzeitig wird beim Start und zur Laufzeit blockiert
 - Trusted Proxy — optional nur Requests von bestimmter IP/Subnetz erlauben, X-Forwarded-For Support
+- Allowed Hosts — Host-Header Restriction, blockiert Zugriffe über unbekannte Domains/IPs
+- Avatar Access Control — Subnet-basierte Zugriffskontrolle für Avatare, eingeloggte User immer erlaubt (JWT-Auth)
 - JWT-Secret Warnung wenn Default-Wert im Produktivbetrieb
 - Validierung in der Admin-Konsole: OIDC erfordert HTTPS, Trusted Proxy und deaktivierten Dev-Mode
 
 ## 📋 Changelog
 
-**Vollständiger Changelog:** Siehe [CHANGELOG.md](CHANGELOG.md) für detaillierte Informationen zu allen Änderungen.
+| Version | Datum | Highlights |
+|---------|-------|------------|
+| v0.1.4 | 2026-03-25 | ALLOWED_HOSTS, Avatar Access Control (Subnet-Modus), Session-Persistenz |
+| v0.1.3 | 2026-03-22 | App-Logo, Settings-Gruppen, JWT/App-Name konfigurierbar |
+| v0.1.2 | 2026-03-22 | Trusted Proxy, OIDC Security Checks, X-Forwarded-For |
+| v0.1.1 | 2026-03-22 | Legacy-Login Toggle, Docker Hub |
+| v0.1.0 | 2026-03-21 | Initial Release |
+
+**Vollständiger Changelog:** Siehe [CHANGELOG.md](CHANGELOG.md) für detaillierte Informationen.

@@ -6,6 +6,22 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/).
 
 ---
 
+## v0.1.4 (2026-03-25)
+
+### Hinzugefügt
+- **ALLOWED_HOSTS** — Host-Header Restriction, erlaubt nur Zugriff über konfigurierte Hostnamen/IPs (Default: `localhost`). Komma-separiert, dynamisch über Admin-Konsole änderbar
+- **Avatar Access Control** — Neuer Modus `AVATAR_ACCESS`: `public` oder `subnet`. Bei `subnet` sind Avatare nur aus konfigurierten Subnetzen (`AVATAR_ALLOWED_SUBNETS`) erreichbar. Eingeloggte User können Avatare immer sehen (JWT-Auth). User können ihren Avatar eigenständig öffentlich freigeben (`AVATAR_USER_CAN_PUBLISH` + Publish-Toggle im UI)
+- **Session-Persistenz** — Login-State überlebt Browser-Refresh (Token aus localStorage). Bei abgelaufenem Token automatischer Logout
+
+### Behoben
+- **Login-Formular Flash** — Legacy-Login wurde kurz angezeigt bevor Config geladen war
+- **Avatar-Historie Zentrierung** — Grid war bei weniger als 3 Einträgen nach links versetzt
+
+### Geändert
+- **.env.example konsolidiert** — Eine einzige Datei im Root statt zwei (backend + root). Alle Variablen mit Beschreibungen
+
+---
+
 ## v0.1.3 (2026-03-22)
 
 ### Hinzugefügt
