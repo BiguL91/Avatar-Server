@@ -98,6 +98,11 @@ Der Server läuft auf Port `8000`. Einen Reverse-Proxy (Nginx, Caddy, Traefik) d
 
 > **Watchtower-Nutzer:** Das `:latest` Tag wird bei jedem Release aktualisiert. Für eine feste Version stattdessen z.B. `bigul91/avatar-server:0.1.1` verwenden.
 
+
+## Support & Spenden ☕
+
+Wenn Ihnen das Projekt gefällt und Sie die Entwicklung unterstützen möchten, können Sie mir gerne einen Kaffee spendieren: [ko-fi.com/bigul91](https://ko-fi.com/bigul91)
+
 ### Lokale Entwicklung
 
 ```bash
