@@ -36,7 +36,8 @@ Self-Hosted Avatar Server — ein Gravatar-Ersatz für die eigene Infrastruktur.
 - **JWT** — Bearer-Token mit konfigurierbarer Ablaufzeit
 
 ### Administration
-- **Admin-Konsole** — Benutzerverwaltung (Anlegen, Bearbeiten, Löschen, Aktivieren/Deaktivieren)
+- **Admin-Konsole** — Benutzerverwaltung, User Avatare, Settings als separate Tabs
+- **Avatar sperren** — Admin kann einzelne Avatare sperren, nächster nicht-gesperrter wird automatisch aktiv, Silhouette als Fallback
 - **Settings-Editor** — Alle Einstellungen zur Laufzeit änderbar (ENV als Defaults, DB-Overrides)
 - **Admin-User aus ENV** — Wird beim ersten Start automatisch angelegt
 
@@ -200,6 +201,7 @@ Avatar Server ←→ OIDC Provider (Keycloak, etc.)
 
 | Version | Datum | Highlights |
 |---------|-------|------------|
+| v0.1.5 | 2026-03-27 | Avatar sperren, Admin-Tab "User Avatare", Admin-Konsole Refactoring |
 | v0.1.4 | 2026-03-25 | ALLOWED_HOSTS, Avatar Access Control (Subnet-Modus), Session-Persistenz |
 | v0.1.3 | 2026-03-22 | App-Logo, Settings-Gruppen, JWT/App-Name konfigurierbar |
 | v0.1.2 | 2026-03-22 | Trusted Proxy, OIDC Security Checks, X-Forwarded-For |

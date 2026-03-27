@@ -38,6 +38,7 @@ class Avatar(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_locked: Mapped[bool] = mapped_column(Boolean, default=False)  # Vom Admin gesperrt
     crop_data: Mapped[str | None] = mapped_column(Text, nullable=True)  # JSON-String
     original_path: Mapped[str] = mapped_column(Text)  # Pfad zur Original-Datei
     created_at: Mapped[datetime] = mapped_column(

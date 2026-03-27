@@ -220,6 +220,9 @@ async def activate_upload(db: AsyncSession, email: str, upload_id: int) -> dict:
     if not avatar:
         raise ValueError("Upload nicht gefunden")
 
+    if avatar.is_locked:
+        raise ValueError("Gesperrter Avatar kann nicht aktiviert werden")
+
     # Alle Avatare deaktivieren
     all_avatars = await db.execute(
         select(Avatar).where(Avatar.user_id == user.id)
@@ -315,6 +318,7 @@ async def get_history(db: AsyncSession, email: str) -> dict:
             "id": avatar.id,
             "created_at": avatar.created_at.isoformat(),
             "is_active": avatar.is_active,
+            "is_locked": avatar.is_locked,
             "thumbnail": f"/api/uploads/{hashes['sha256']}/{avatar.id}/64.webp",
         })
 
@@ -342,3 +346,73 @@ async def get_active_avatar_info(db: AsyncSession, email: str) -> dict:
         "md5": hashes["md5"],
         "has_avatar": has_avatar,
     }
+
+
+async def _activate_next_unlocked(db: AsyncSession, user: User, email: str) -> bool:
+    """Naechsten nicht-gesperrten Avatar aktivieren. Gibt True zurueck wenn einer gefunden wurde."""
+    result = await db.execute(
+        select(Avatar)
+        .where(Avatar.user_id == user.id, Avatar.is_locked == False)
+        .order_by(Avatar.created_at.desc())
+    )
+    next_avatar = result.scalars().first()
+    if next_avatar:
+        next_avatar.is_active = True
+        await db.commit()
+        _publish_active(email, next_avatar.id)
+        return True
+    return False
+
+
+def _unpublish_avatar(email: str) -> None:
+    """Oeffentliche Hash-Verzeichnisse leeren (ohne User-Uploads zu loeschen)."""
+    hashes = hash_email(email)
+    storage = Path(settings.avatar_storage_path)
+    for hash_type, hash_value in hashes.items():
+        hash_dir = storage / hash_type / hash_value
+        if hash_dir.exists():
+            shutil.rmtree(hash_dir)
+
+
+async def lock_avatar(db: AsyncSession, avatar_id: int) -> dict:
+    """Avatar sperren. Wenn aktiv: naechsten nicht-gesperrten aktivieren oder Default publizieren."""
+    result = await db.execute(select(Avatar).where(Avatar.id == avatar_id))
+    avatar = result.scalar_one_or_none()
+    if not avatar:
+        raise ValueError("Avatar nicht gefunden")
+
+    avatar.is_locked = True
+    was_active = avatar.is_active
+
+    if was_active:
+        avatar.is_active = False
+        await db.commit()
+
+        # User laden fuer Email
+        user_result = await db.execute(select(User).where(User.id == avatar.user_id))
+        user = user_result.scalar_one()
+
+        # Naechsten nicht-gesperrten aktivieren
+        found = await _activate_next_unlocked(db, user, user.email)
+        if not found:
+            # Kein Avatar mehr verfuegbar -> Default publizieren
+            from app.services.default_avatar import publish_default
+            _unpublish_avatar(user.email)
+            publish_default(user.email)
+    else:
+        await db.commit()
+
+    return {"id": avatar.id, "is_locked": True}
+
+
+async def unlock_avatar(db: AsyncSession, avatar_id: int) -> dict:
+    """Avatar entsperren (wird nicht automatisch aktiviert)."""
+    result = await db.execute(select(Avatar).where(Avatar.id == avatar_id))
+    avatar = result.scalar_one_or_none()
+    if not avatar:
+        raise ValueError("Avatar nicht gefunden")
+
+    avatar.is_locked = False
+    await db.commit()
+
+    return {"id": avatar.id, "is_locked": False}

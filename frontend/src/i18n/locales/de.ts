@@ -42,6 +42,7 @@ export const de = {
   "crop.pan.hint": "Mittlere Maustaste gedrückt halten zum Verschieben",
   "crop.cancel": "Abbrechen",
 
+  "history.locked": "Vom Admin gesperrt",
   "history.edit": "Bearbeiten",
   "history.recrop.save": "Speichern",
 
@@ -98,6 +99,13 @@ export const de = {
   "admin.users.active": "Aktiv",
   "admin.users.deactivated": "Deaktiviert",
   "admin.users.deactivate.self": "Eigenen Account kann man nicht deaktivieren",
+  // Admin: User Avatare
+  "admin.avatars.title": "User Avatare",
+  "admin.avatars.empty": "Keine Avatare vorhanden",
+  "admin.avatars.lock": "Sperren",
+  "admin.avatars.unlock": "Entsperren",
+  "admin.avatars.locked": "Gesperrt",
+
   "admin.settings.title": "Einstellungen",
   "admin.settings.group.avatar": "Avatar-Einstellungen",
   "admin.settings.group.login": "Login & Sicherheit",

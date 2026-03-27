@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import { useTranslation } from "../i18n/i18n";
 import { AdminUsers } from "../components/AdminUsers";
+import { AdminAvatars } from "../components/AdminAvatars";
 import { AdminSettings } from "../components/AdminSettings";
 import "./AdminPage.css";
 
@@ -9,7 +10,7 @@ interface AdminPageProps {
   currentUserId: number;
 }
 
-type AdminTab = "users" | "settings";
+type AdminTab = "users" | "avatars" | "settings";
 
 export function AdminPage({ onBack, currentUserId }: AdminPageProps) {
   const { t } = useTranslation();
@@ -43,6 +44,12 @@ export function AdminPage({ onBack, currentUserId }: AdminPageProps) {
           {t("admin.users.title")}
         </button>
         <button
+          className={`admin-tabs__btn ${activeTab === "avatars" ? "admin-tabs__btn--active" : ""}`}
+          onClick={() => setActiveTab("avatars")}
+        >
+          {t("admin.avatars.title")}
+        </button>
+        <button
           className={`admin-tabs__btn ${activeTab === "settings" ? "admin-tabs__btn--active" : ""}`}
           onClick={() => setActiveTab("settings")}
         >
@@ -53,6 +60,9 @@ export function AdminPage({ onBack, currentUserId }: AdminPageProps) {
       {/* Tab-Inhalt */}
       {activeTab === "users" && (
         <AdminUsers currentUserId={currentUserId} onSaved={showToast} />
+      )}
+      {activeTab === "avatars" && (
+        <AdminAvatars onSaved={showToast} />
       )}
       {activeTab === "settings" && (
         <AdminSettings onSaved={showToast} />

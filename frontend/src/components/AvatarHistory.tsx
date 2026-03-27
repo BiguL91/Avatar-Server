@@ -10,6 +10,7 @@ interface UploadEntry {
   id: number;
   created_at: string;
   is_active: boolean;
+  is_locked: boolean;
   thumbnail: string;
 }
 
@@ -240,7 +241,7 @@ export function AvatarHistory({ refreshTrigger, onLimitInfo, onAvatarChange, ava
         {data.uploads.map((upload) => (
           <div
             key={upload.id}
-            className={`history__item ${upload.is_active ? "history__item--active" : ""}`}
+            className={`history__item ${upload.is_active ? "history__item--active" : ""} ${upload.is_locked ? "history__item--locked" : ""}`}
           >
             <img
               src={`${upload.thumbnail}?v=${cacheKey}`}
@@ -248,7 +249,17 @@ export function AvatarHistory({ refreshTrigger, onLimitInfo, onAvatarChange, ava
               className="history__thumbnail"
             />
 
-            {upload.is_active ? (
+            {upload.is_locked ? (
+              <div className="history__locked-row">
+                <span className="history__badge history__badge--locked">{t("history.locked")}</span>
+                <button
+                  className="btn btn--danger btn--sm"
+                  onClick={() => setDeleteId(upload.id)}
+                >
+                  {t("history.delete")}
+                </button>
+              </div>
+            ) : upload.is_active ? (
               <div className="history__active-row">
                 <span className="history__badge">{t("history.active")}</span>
                 <button

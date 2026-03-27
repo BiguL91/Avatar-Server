@@ -13,7 +13,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.config import settings
 from app.database import get_db
-from app.routers import admin, auth, avatar, oidc, upload
+from app.routers import admin, admin_avatars, auth, avatar, oidc, upload
 
 
 def _check_security():
@@ -181,7 +181,7 @@ async def _seed_admin_user():
 
 app = FastAPI(
     title=settings.app_name,
-    version="0.1.4",
+    version="0.1.5",
     lifespan=lifespan,
 )
 
@@ -204,6 +204,7 @@ app.add_middleware(TrustedProxyMiddleware)
 app.add_middleware(AllowedHostsMiddleware)
 
 app.include_router(admin.router, prefix="/api")
+app.include_router(admin_avatars.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
 app.include_router(oidc.router, prefix="/api")
 app.include_router(avatar.router)

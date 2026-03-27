@@ -42,6 +42,7 @@ export const en = {
   "crop.pan.hint": "Hold middle mouse button to pan",
   "crop.cancel": "Cancel",
 
+  "history.locked": "Locked by admin",
   "history.edit": "Edit",
   "history.recrop.save": "Save",
 
@@ -98,6 +99,13 @@ export const en = {
   "admin.users.active": "Active",
   "admin.users.deactivated": "Deactivated",
   "admin.users.deactivate.self": "Cannot deactivate your own account",
+  // Admin: User Avatars
+  "admin.avatars.title": "User Avatars",
+  "admin.avatars.empty": "No avatars found",
+  "admin.avatars.lock": "Lock",
+  "admin.avatars.unlock": "Unlock",
+  "admin.avatars.locked": "Locked",
+
   "admin.settings.title": "Settings",
   "admin.settings.group.avatar": "Avatar Settings",
   "admin.settings.group.login": "Login & Security",

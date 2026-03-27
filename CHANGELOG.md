@@ -6,6 +6,18 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/).
 
 ---
 
+## v0.1.5 (2026-03-27)
+
+### Hinzugefügt
+- **Avatar sperren** — Admin kann einzelne Avatare sperren. Gesperrter Avatar wird automatisch durch den nächsten nicht-gesperrten ersetzt. Wenn kein Avatar verfügbar ist, wird eine Silhouette als Fallback angezeigt. User sieht gesperrte Avatare ausgegraut mit Hinweis und kann sie löschen
+- **Admin-Tab "User Avatare"** — Neuer Tab in der Admin-Konsole zeigt alle hochgeladenen Avatare nach User gruppiert (aufklappbare Dropdowns). Sperr-Toggle pro Avatar
+- **Default-Avatar Generierung** — Einfache Silhouette als Fallback wenn alle Avatare eines Users gesperrt sind
+
+### Geändert
+- **Admin-Konsole Refactoring** — AdminPage aufgeteilt in Einzelkomponenten (AdminUsers, AdminSettings, AdminAvatars). Tab-Navigation statt einer langen Seite
+
+---
+
 ## v0.1.4 (2026-03-25)
 
 ### Hinzugefügt

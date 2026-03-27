@@ -5,8 +5,6 @@ Diese Datei enthält geplante Features und Verbesserungen
 
 ## 🎯 Priorität 1 (Next)
 
-Avatar sperren — Admin kann einzelne Avatare sperren. Gesperrter Avatar wird durch Default ersetzt, User sieht Hinweis.
-
 OIDC Session Sync — Bidirektionale Session-Synchronisierung mit Keycloak:
 - **Refresh Token Flow:** `refresh_token` von Keycloak speichern (DB, nicht Frontend). Frontend pollt alle X Minuten → Backend fragt Keycloak ob Session noch gültig. Wenn ja → neuen App-JWT ausstellen + Keycloak-Session verlängern. Wenn nein → automatisch ausloggen.
 - **Backchannel Logout:** Neuer Endpoint `POST /api/auth/oidc/backchannel-logout`. Keycloak sendet signierten `logout_token` wenn User sich dort abmeldet → Avatar Server invalidiert Session sofort. Muss in Keycloak als Backchannel Logout URL konfiguriert werden.

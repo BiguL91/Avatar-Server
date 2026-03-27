@@ -161,6 +161,25 @@
   font-weight: 600;
 }
 
+.history__badge--locked {
+  color: var(--color-error, #dc2626);
+}
+
+.history__item--locked {
+  opacity: 0.5;
+}
+
+.history__item--locked .history__thumbnail {
+  filter: grayscale(1);
+}
+
+.history__locked-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
 .history__active-row {
   display: flex;
   flex-direction: column;

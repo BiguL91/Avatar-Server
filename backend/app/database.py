@@ -47,6 +47,16 @@ async def init_db():
 
         await conn.run_sync(_migrate_oidc_sub)
 
+        # Migration: is_locked Spalte zu avatars hinzufuegen (Avatar sperren)
+        def _migrate_is_locked(connection):
+            from sqlalchemy import text, inspect
+            inspector = inspect(connection)
+            columns = [col["name"] for col in inspector.get_columns("avatars")]
+            if "is_locked" not in columns:
+                connection.execute(text("ALTER TABLE avatars ADD COLUMN is_locked BOOLEAN DEFAULT 0 NOT NULL"))
+
+        await conn.run_sync(_migrate_is_locked)
+
         # Migration: avatar_public Spalte zu users hinzufuegen (Avatar Access Control)
         def _migrate_avatar_public(connection):
             from sqlalchemy import text, inspect
